@@ -1,0 +1,605 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Janes-Landmark — Host Families & Au Pairs</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght@0,9..144,400;0,9..144,500;0,9..144,600;1,9..144,500&family=Inter:wght@400;500;600&family=Space+Mono:wght@400;700&display=swap" rel="stylesheet">
+<style>
+  :root{
+    --paper: #F1EDE2;
+    --paper-2: #E9E2D0;
+    --ink: #23312D;
+    --ink-soft: #4B5A54;
+    --green: #2F5D50;
+    --green-deep: #1E3F36;
+    --brass: #B0812A;
+    --brass-soft: #C9A25A;
+    --line: #C9C2AE;
+    --white: #FBF9F3;
+    --max: 1120px;
+  }
+  *{box-sizing:border-box;}
+  html{scroll-behavior:smooth;}
+  body{
+    margin:0;
+    background:var(--paper);
+    color:var(--ink);
+    font-family:'Inter',sans-serif;
+    font-size:16px;
+    line-height:1.6;
+    -webkit-font-smoothing:antialiased;
+  }
+  h1,h2,h3{
+    font-family:'Fraunces',serif;
+    color:var(--green-deep);
+    margin:0 0 .4em 0;
+    font-weight:600;
+    letter-spacing:-.01em;
+  }
+  a{color:inherit;}
+  .wrap{max-width:var(--max); margin:0 auto; padding:0 28px;}
+  .stamp-label{
+    font-family:'Space Mono',monospace;
+    text-transform:uppercase;
+    letter-spacing:.14em;
+    font-size:.72rem;
+    color:var(--brass);
+  }
+
+  /* focus visibility */
+  a:focus-visible, button:focus-visible{outline:2px solid var(--green); outline-offset:3px;}
+  @media (prefers-reduced-motion: reduce){ *{animation:none !important; transition:none !important;} }
+
+  /* ===== NAV ===== */
+  header{
+    position:sticky; top:0; z-index:40;
+    background:rgba(241,237,226,.92);
+    backdrop-filter:blur(6px);
+    border-bottom:1px solid var(--line);
+  }
+  .nav{
+    display:flex; align-items:center; justify-content:space-between;
+    padding:16px 28px;
+  }
+  .brand{
+    display:flex; align-items:baseline; gap:10px;
+    font-family:'Fraunces',serif; font-weight:600; font-size:1.25rem; color:var(--green-deep);
+    text-decoration:none;
+  }
+  .brand .mark{
+    font-family:'Space Mono',monospace; font-size:.65rem; color:var(--brass);
+    border:1px solid var(--brass-soft); border-radius:999px; padding:2px 8px;
+    letter-spacing:.1em;
+  }
+  .nav-right{display:flex; align-items:center; gap:18px;}
+  .lang-toggle{
+    display:flex; border:1px solid var(--ink); border-radius:999px; overflow:hidden;
+    font-family:'Space Mono',monospace; font-size:.75rem;
+  }
+  .lang-toggle button{
+    background:transparent; border:none; cursor:pointer; padding:6px 12px;
+    color:var(--ink); font-family:inherit; font-size:inherit;
+  }
+  .lang-toggle button.active{background:var(--green-deep); color:var(--white);}
+  .call-btn{
+    display:inline-flex; align-items:center; gap:8px;
+    background:var(--green-deep); color:var(--white);
+    padding:9px 18px; border-radius:999px; text-decoration:none;
+    font-size:.9rem; font-weight:500;
+    box-shadow:0 2px 0 var(--brass);
+    transition:transform .15s ease;
+  }
+  .call-btn:hover{transform:translateY(-1px);}
+  .call-btn svg{width:15px; height:15px;}
+
+  /* ===== HERO ===== */
+  .hero{
+    padding:76px 0 60px;
+    position:relative;
+    overflow:hidden;
+  }
+  .hero-grid{
+    display:grid; grid-template-columns:1.15fr .85fr; gap:48px; align-items:center;
+  }
+  .eyebrow{
+    display:inline-flex; align-items:center; gap:8px;
+    margin-bottom:18px;
+  }
+  .eyebrow .dot{width:6px; height:6px; border-radius:50%; background:var(--brass);}
+  h1.headline{
+    font-size:clamp(2.1rem, 4.2vw, 3.3rem);
+    line-height:1.08;
+  }
+  .headline em{
+    font-style:italic; color:var(--green);
+  }
+  .sub{
+    font-size:1.05rem; color:var(--ink-soft); max-width:46ch; margin:18px 0 30px;
+  }
+  .hero-ctas{display:flex; gap:14px; flex-wrap:wrap; align-items:center;}
+  .ghost-link{
+    font-family:'Space Mono',monospace; font-size:.82rem; text-decoration:none;
+    border-bottom:1px solid var(--ink); padding-bottom:2px;
+  }
+
+  /* passport stamp collage */
+  .stamps{position:relative; height:340px;}
+  .stamp{
+    position:absolute;
+    border:2px dashed var(--green);
+    border-radius:50%;
+    display:flex; align-items:center; justify-content:center;
+    text-align:center;
+    font-family:'Space Mono',monospace;
+    text-transform:uppercase;
+    color:var(--green-deep);
+    background:var(--white);
+    box-shadow:0 6px 18px rgba(35,49,45,.08);
+  }
+  .stamp span{padding:0 10px; font-size:.68rem; letter-spacing:.08em; line-height:1.3;}
+  .stamp.s1{width:180px; height:180px; top:0; left:20px; transform:rotate(-9deg); border-color:var(--green);}
+  .stamp.s2{width:150px; height:150px; top:120px; left:170px; transform:rotate(7deg); border-color:var(--brass); color:var(--brass);}
+  .stamp.s3{width:130px; height:130px; top:200px; left:0; transform:rotate(4deg); border-style:solid; border-width:1px; background:var(--paper-2);}
+  .stamp.s2 span{color:var(--brass);}
+
+  /* hero photo (replaces stamp collage when media/image-background is present) */
+  .hero-visual{position:relative; height:340px;}
+  .hero-photo-frame{
+    display:none; position:absolute; inset:0;
+    border-radius:20px;
+    overflow:hidden;
+    box-shadow:0 14px 34px rgba(35,49,45,.18);
+    background:var(--paper-2);
+  }
+  .hero-photo{width:100%; height:100%; object-fit:cover; display:block;}
+  .badge-stamp.stamp{
+    display:none; position:absolute; top:-14px; left:-14px; z-index:5;
+    width:96px; height:96px;
+    background:transparent;
+    border:1px dashed rgba(0,0,0,.55);
+    color:#111;
+    box-shadow:none;
+  }
+  .badge-stamp.stamp span{color:#111; font-size:.58rem;}
+  .stamps-fallback{position:absolute; inset:0;}
+  .hero-visual.has-photo .hero-photo-frame{display:block;}
+  .hero-visual.has-photo .badge-stamp{display:flex;}
+  .hero-visual.has-photo .stamps-fallback{display:none;}
+
+  /* ===== VALUE STRIP ===== */
+  .value-strip{
+    border-top:1px solid var(--line); border-bottom:1px solid var(--line);
+    background:var(--paper-2);
+  }
+  .value-grid{
+    display:grid; grid-template-columns:repeat(3,1fr);
+    padding:34px 0;
+  }
+  .value-item{padding:0 24px; border-left:1px solid var(--line);}
+  .value-item:first-child{border-left:none;}
+  .value-item h3{font-size:1.05rem; margin-bottom:6px;}
+  .value-item p{margin:0; color:var(--ink-soft); font-size:.92rem;}
+
+  /* ===== SECTION GENERIC ===== */
+  section{padding:72px 0;}
+  .section-head{max-width:640px; margin-bottom:42px;}
+  .section-head .stamp-label{display:block; margin-bottom:10px;}
+
+  /* what it involves */
+  .involves{
+    display:grid; grid-template-columns:1fr 1fr; gap:56px; align-items:start;
+  }
+  .involves ul{list-style:none; margin:22px 0 0; padding:0;}
+  .involves li{
+    display:flex; gap:12px; padding:12px 0; border-top:1px solid var(--line);
+    font-size:.96rem;
+  }
+  .involves li:last-child{border-bottom:1px solid var(--line);}
+  .involves li .num{font-family:'Space Mono',monospace; color:var(--brass); font-size:.85rem;}
+
+  /* how it works timeline */
+  .steps{
+    display:grid; grid-template-columns:repeat(4,1fr); gap:24px; counter-reset:step;
+  }
+  .step{position:relative; padding-top:52px;}
+  .step::before{
+    counter-increment:step; content:counter(step, decimal-leading-zero);
+    font-family:'Space Mono',monospace; font-size:.85rem; color:var(--white);
+    background:var(--green-deep); width:34px; height:34px; border-radius:50%;
+    display:flex; align-items:center; justify-content:center;
+    position:absolute; top:0; left:0;
+  }
+  .step h3{font-size:1rem; margin-bottom:6px;}
+  .step p{margin:0; color:var(--ink-soft); font-size:.88rem;}
+
+  /* cost / included */
+  .cost-card{
+    background:var(--white); border:1px solid var(--line); border-radius:18px;
+    padding:40px; display:grid; grid-template-columns:1fr 1fr; gap:40px;
+  }
+  .cost-card ul{list-style:none; margin:0; padding:0;}
+  .cost-card li{
+    display:flex; align-items:flex-start; gap:10px; padding:9px 0; font-size:.94rem;
+  }
+  .cost-card li::before{content:"—"; color:var(--brass); font-weight:700;}
+  .note{
+    font-size:.85rem; color:var(--ink-soft); border-left:2px solid var(--brass-soft);
+    padding-left:14px; margin-top:20px;
+  }
+
+  /* about aunty k */
+  .about{
+    background:var(--green-deep); color:var(--white); border-radius:22px;
+    padding:52px; display:grid; grid-template-columns:.9fr 1.1fr; gap:44px; align-items:center;
+  }
+  .about h2{color:var(--white);}
+  .about p{color:#DDE7E2;}
+  .about .stamp-label{color:var(--brass-soft);}
+  .avatar-ring{
+    width:180px; height:180px; border-radius:50%;
+    border:2px dashed var(--brass-soft);
+    display:flex; align-items:center; justify-content:center;
+    margin:0 auto; position:relative; overflow:hidden;
+    font-family:'Fraunces',serif; font-size:2.6rem; color:var(--white);
+    background:rgba(255,255,255,.06);
+  }
+  .avatar-ring img{
+    display:none; width:100%; height:100%; object-fit:cover; border-radius:50%;
+  }
+  .about-text{position:relative;}
+  .about-signature{
+    position:absolute;
+    top:-18px; right:0;
+    width:220px; height:auto;
+    opacity:.5;
+    z-index:0;
+    pointer-events:none;
+    user-select:none;
+  }
+  .about-text > *{position:relative; z-index:1;}
+
+  /* testimonials */
+  .quotes{display:grid; grid-template-columns:repeat(3,1fr); gap:24px;}
+  .quote{
+    background:var(--white); border:1px solid var(--line); border-radius:14px; padding:26px;
+  }
+  .quote p{font-size:.92rem; margin:0 0 14px; font-style:italic;}
+  .quote .who{font-family:'Space Mono',monospace; font-size:.75rem; color:var(--ink-soft);}
+
+  /* contact / footer */
+  .contact{
+    background:var(--paper-2); border-top:1px solid var(--line);
+  }
+  .contact-inner{
+    display:grid; grid-template-columns:1.1fr .9fr; gap:48px; align-items:center; padding:60px 0;
+  }
+  .big-call{
+    display:inline-flex; align-items:center; gap:12px;
+    font-family:'Fraunces',serif; font-size:1.9rem; color:var(--green-deep);
+    text-decoration:none; margin-top:10px;
+  }
+  .contact-details{
+    background:var(--white); border:1px solid var(--line); border-radius:16px; padding:28px;
+    font-size:.92rem;
+  }
+  .contact-details div{padding:8px 0; border-top:1px solid var(--line);}
+  .contact-details div:first-child{border-top:none; padding-top:0;}
+  .contact-details .k{font-family:'Space Mono',monospace; font-size:.7rem; text-transform:uppercase; letter-spacing:.08em; color:var(--brass); display:block; margin-bottom:2px;}
+
+  footer{padding:30px 0; text-align:center; font-size:.8rem; color:var(--ink-soft);}
+
+  [data-lang="de"]{display:none;}
+  body.lang-de [data-lang="en"]{display:none;}
+  body.lang-de [data-lang="de"]{display:initial;}
+  body.lang-de .step[data-lang="de"], body.lang-de .value-item[data-lang="de"]{display:block;}
+
+  @media (max-width: 880px){
+    .hero-grid, .involves, .about, .contact-inner, .cost-card{grid-template-columns:1fr;}
+    .value-grid{grid-template-columns:1fr;}
+    .value-item{border-left:none; border-top:1px solid var(--line); padding:20px 0;}
+    .value-item:first-child{border-top:none;}
+    .steps{grid-template-columns:1fr 1fr;}
+    .quotes{grid-template-columns:1fr;}
+    .hero-visual{height:260px; margin-top:20px;}
+    .about{padding:32px;}
+    .avatar-ring{width:130px; height:130px; font-size:2rem;}
+  }
+  @media (max-width: 560px){
+    .steps{grid-template-columns:1fr;}
+    .nav{padding:14px 18px;}
+    .cost-card{padding:26px;}
+  }
+</style>
+</head>
+<body>
+
+<header>
+  <div class="nav wrap">
+    <a href="#top" class="brand">Janes-Landmark <span class="mark">EST.</span></a>
+    <div class="nav-right">
+      <div class="lang-toggle">
+        <button type="button" data-set-lang="en" class="active">EN</button>
+        <button type="button" data-set-lang="de">DE</button>
+      </div>
+      <a class="call-btn" href="tel:+4915216789697">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07 19.5 19.5 0 0 1-6-6 19.79 19.79 0 0 1-3.07-8.67A2 2 0 0 1 4.11 2h3a2 2 0 0 1 2 1.72c.127.96.361 1.903.7 2.81a2 2 0 0 1-.45 2.11L8.09 9.91a16 16 0 0 0 6 6l1.27-1.27a2 2 0 0 1 2.11-.45c.907.339 1.85.573 2.81.7A2 2 0 0 1 22 16.92z"/></svg>
+        <span data-lang="en">Call now</span><span data-lang="de">Jetzt anrufen</span>
+      </a>
+    </div>
+  </div>
+</header>
+
+<main id="top">
+
+  <!-- HERO -->
+  <section class="hero">
+    <div class="wrap hero-grid">
+      <div>
+        <div class="eyebrow">
+          <span class="dot"></span>
+          <span class="stamp-label" data-lang="en">Host families &amp; au pairs · Europe</span>
+          <span class="stamp-label" data-lang="de">Gastfamilien &amp; Au-pairs · Europa</span>
+        </div>
+        <h1 class="headline">
+          <span data-lang="en">Your au pair is already <em>trained</em> and waiting to meet you.</span>
+          <span data-lang="de">Ihr Au-pair ist bereits <em>ausgebildet</em> und wartet darauf, Sie kennenzulernen.</span>
+        </h1>
+        <p class="sub" data-lang="en">Janes-Landmark places trained, ready-to-go au pairs with host families across Europe. No endless searching — just a personal introduction from someone who knows both sides well.</p>
+        <p class="sub" data-lang="de">Janes-Landmark vermittelt ausgebildete, einsatzbereite Au-pairs an Gastfamilien in ganz Europa. Kein endloses Suchen — nur eine persönliche Vorstellung von jemandem, der beide Seiten gut kennt.</p>
+        <div class="hero-ctas">
+          <a class="call-btn" href="tel:+4915216789697">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07 19.5 19.5 0 0 1-6-6 19.79 19.79 0 0 1-3.07-8.67A2 2 0 0 1 4.11 2h3a2 2 0 0 1 2 1.72c.127.96.361 1.903.7 2.81a2 2 0 0 1-.45 2.11L8.09 9.91a16 16 0 0 0 6 6l1.27-1.27a2 2 0 0 1 2.11-.45c.907.339 1.85.573 2.81.7A2 2 0 0 1 22 16.92z"/></svg>
+            <span data-lang="en">+49 1521 6789697</span><span data-lang="de">+49 1521 6789697</span>
+          </a>
+          <a class="ghost-link" href="#how">
+            <span data-lang="en">See how it works ↓</span>
+            <span data-lang="de">So funktioniert's ↓</span>
+          </a>
+        </div>
+      </div>
+      <div class="hero-visual" aria-hidden="true">
+        <div class="hero-photo-frame">
+          <img class="hero-photo" src="media/image-background.jpg" alt=""
+               onload="this.closest('.hero-visual').classList.add('has-photo');"
+               onerror="this.closest('.hero-visual').classList.add('no-photo');">
+        </div>
+        <div class="stamp s2 badge-stamp"><span data-lang="en">TRAINED &amp; READY</span><span data-lang="de">AUSGEBILDET &amp; BEREIT</span></div>
+
+        <div class="stamps stamps-fallback">
+          <div class="stamp s1"><span data-lang="en">TRAINED &amp; READY</span><span data-lang="de">AUSGEBILDET &amp; BEREIT</span></div>
+          <div class="stamp s2"><span data-lang="en">PERSONALLY MATCHED</span><span data-lang="de">PERSÖNLICH VERMITTELT</span></div>
+          <div class="stamp s3"><span data-lang="en">WELCOME HOME</span><span data-lang="de">WILLKOMMEN ZUHAUSE</span></div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- VALUE STRIP -->
+  <div class="value-strip">
+    <div class="wrap value-grid">
+      <div class="value-item">
+        <h3 data-lang="en">No waiting list</h3>
+        <h3 data-lang="de">Keine Warteliste</h3>
+        <p data-lang="en">Our au pairs are already trained and ready for placement — not still in the pipeline.</p>
+        <p data-lang="de">Unsere Au-pairs sind bereits ausgebildet und einsatzbereit — nicht erst in Vorbereitung.</p>
+      </div>
+      <div class="value-item">
+        <h3 data-lang="en">One point of contact</h3>
+        <h3 data-lang="de">Ein Ansprechpartner</h3>
+        <p data-lang="en">You deal with Aunty K directly, start to finish — not a faceless platform.</p>
+        <p data-lang="de">Sie sprechen von Anfang bis Ende direkt mit Aunty K — nicht mit einer anonymen Plattform.</p>
+      </div>
+      <div class="value-item">
+        <h3 data-lang="en">Built on trust</h3>
+        <h3 data-lang="de">Auf Vertrauen aufgebaut</h3>
+        <p data-lang="en">Every match is made with care, not by algorithm — for families and au pairs alike.</p>
+        <p data-lang="de">Jede Vermittlung erfolgt mit Sorgfalt, nicht per Algorithmus — für Familien und Au-pairs gleichermaßen.</p>
+      </div>
+    </div>
+  </div>
+
+  <!-- WHAT'S INVOLVED -->
+  <section>
+    <div class="wrap involves">
+      <div>
+        <div class="section-head">
+          <span class="stamp-label" data-lang="en">The basics</span>
+          <span class="stamp-label" data-lang="de">Die Grundlagen</span>
+          <h2 data-lang="en">Hosting an au pair — what it really means</h2>
+          <h2 data-lang="de">Ein Au-pair aufnehmen — was das wirklich bedeutet</h2>
+          <p data-lang="en">A young person joins your family as a full household member for a set period, usually 3–12 months. They help with childcare and everyday family life while living as one of your own — and because ours are already trained, the settling-in period is shorter.</p>
+          <p data-lang="de">Ein junger Mensch wird für einen festgelegten Zeitraum, meist 3–12 Monate, vollwertiges Mitglied Ihrer Familie. Er oder sie hilft bei der Kinderbetreuung und im Familienalltag und lebt wie ein Familienmitglied — und da unsere Au-pairs bereits ausgebildet sind, verkürzt sich die Eingewöhnungszeit.</p>
+        </div>
+      </div>
+      <div>
+        <ul>
+          <li><span class="num">01</span><span data-lang="en">Own room and full board in your home</span><span data-lang="de">Eigenes Zimmer und Vollpension in Ihrem Zuhause</span></li>
+          <li><span class="num">02</span><span data-lang="en">Help with childcare and light family tasks</span><span data-lang="de">Unterstützung bei Kinderbetreuung und leichten Haushaltsaufgaben</span></li>
+          <li><span class="num">03</span><span data-lang="en">Already trained — ready from day one</span><span data-lang="de">Bereits ausgebildet — startklar ab dem ersten Tag</span></li>
+          <li><span class="num">04</span><span data-lang="en">Ongoing support from Aunty K throughout the placement</span><span data-lang="de">Fortlaufende Unterstützung durch Aunty K während der gesamten Vermittlung</span></li>
+        </ul>
+      </div>
+    </div>
+  </section>
+
+  <!-- HOW IT WORKS -->
+  <section id="how">
+    <div class="wrap">
+      <div class="section-head">
+        <span class="stamp-label" data-lang="en">The process</span>
+        <span class="stamp-label" data-lang="de">Der Ablauf</span>
+        <h2 data-lang="en">From first call to welcome home</h2>
+        <h2 data-lang="de">Vom ersten Anruf bis zum Willkommen zuhause</h2>
+      </div>
+      <div class="steps">
+        <div class="step">
+          <h3 data-lang="en">Call Aunty K</h3><h3 data-lang="de">Aunty K anrufen</h3>
+          <p data-lang="en">Tell us about your family and what you need.</p>
+          <p data-lang="de">Erzählen Sie uns von Ihrer Familie und Ihren Bedürfnissen.</p>
+        </div>
+        <div class="step">
+          <h3 data-lang="en">Meet a match</h3><h3 data-lang="de">Ein Match kennenlernen</h3>
+          <p data-lang="en">We introduce you to a trained au pair who fits.</p>
+          <p data-lang="de">Wir stellen Ihnen ein passendes, ausgebildetes Au-pair vor.</p>
+        </div>
+        <div class="step">
+          <h3 data-lang="en">Agree the details</h3><h3 data-lang="de">Details vereinbaren</h3>
+          <p data-lang="en">We help settle terms, dates and expectations.</p>
+          <p data-lang="de">Wir helfen bei Konditionen, Terminen und Erwartungen.</p>
+        </div>
+        <div class="step">
+          <h3 data-lang="en">Welcome home</h3><h3 data-lang="de">Willkommen zuhause</h3>
+          <p data-lang="en">Your au pair arrives, supported every step.</p>
+          <p data-lang="de">Ihr Au-pair kommt an — begleitet auf jedem Schritt.</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- COST -->
+  <section>
+    <div class="wrap">
+      <div class="section-head">
+        <span class="stamp-label" data-lang="en">What's included</span>
+        <span class="stamp-label" data-lang="de">Was inbegriffen ist</span>
+        <h2 data-lang="en">What hosting typically involves</h2>
+        <h2 data-lang="de">Was die Aufnahme typischerweise umfasst</h2>
+      </div>
+      <div class="cost-card">
+        <div>
+          <h3 data-lang="en">You provide</h3><h3 data-lang="de">Sie stellen bereit</h3>
+          <ul>
+            <li><span data-lang="en">Own room and board</span><span data-lang="de">Eigenes Zimmer und Verpflegung</span></li>
+            <li><span data-lang="en">Weekly pocket money</span><span data-lang="de">Wöchentliches Taschengeld</span></li>
+            <li><span data-lang="en">A welcoming, respectful home</span><span data-lang="de">Ein einladendes, respektvolles Zuhause</span></li>
+          </ul>
+        </div>
+        <div>
+          <h3 data-lang="en">Janes-Landmark handles</h3><h3 data-lang="de">Janes-Landmark übernimmt</h3>
+          <ul>
+            <li><span data-lang="en">Matching you with a trained au pair</span><span data-lang="de">Vermittlung eines ausgebildeten Au-pairs</span></li>
+            <li><span data-lang="en">Personal introductions and guidance</span><span data-lang="de">Persönliche Vorstellung und Beratung</span></li>
+            <li><span data-lang="en">Support throughout the placement</span><span data-lang="de">Unterstützung während der gesamten Vermittlung</span></li>
+          </ul>
+        </div>
+      </div>
+      <p class="note" data-lang="en">Exact rates and current pocket-money guidance are confirmed with Aunty K by phone — every placement is a little different.</p>
+      <p class="note" data-lang="de">Genaue Sätze und aktuelle Taschengeld-Richtwerte werden telefonisch mit Aunty K besprochen — jede Vermittlung ist etwas anders.</p>
+    </div>
+  </section>
+
+  <!-- ABOUT -->
+  <section>
+    <div class="wrap">
+      <div class="about">
+        <div>
+          <div class="avatar-ring">
+            <span class="avatar-fallback">K</span>
+            <img src="media/auntyk.jpg" alt="Aunty K" onload="this.previousElementSibling.style.display='none'; this.style.display='block';" onerror="this.style.display='none';">
+          </div>
+        </div>
+        <div class="about-text">
+          <img class="about-signature" src="media/auntyk-signature.png" alt="" aria-hidden="true">
+          <span class="stamp-label" data-lang="en">Who you're talking to</span>
+          <span class="stamp-label" data-lang="de">Mit wem Sie sprechen</span>
+          <h2 data-lang="en">Hi, I'm Aunty K.</h2>
+          <h2 data-lang="de">Hallo, ich bin Aunty K.</h2>
+          <p data-lang="en">I place trained, ready au pairs with host families across Europe — personally, one family at a time. No search filters, no faceless inbox. Just a phone call and someone who'll actually match you well.</p>
+          <p data-lang="de">Ich vermittle ausgebildete, einsatzbereite Au-pairs persönlich an Gastfamilien in ganz Europa — eine Familie nach der anderen. Keine Suchfilter, kein anonymer Posteingang. Nur ein Anruf und jemand, der wirklich gut vermittelt.</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- TESTIMONIALS -->
+  <section>
+    <div class="wrap">
+      <div class="section-head">
+        <span class="stamp-label" data-lang="en">Host families say</span>
+        <span class="stamp-label" data-lang="de">Gastfamilien berichten</span>
+        <h2 data-lang="en">Families we've matched</h2>
+        <h2 data-lang="de">Von uns vermittelte Familien</h2>
+      </div>
+      <div class="quotes">
+        <div class="quote">
+          <p data-lang="en">"We'd braced ourselves for months of searching. Aunty K called us back the same day and had someone who genuinely fit our family within two weeks."</p>
+          <p data-lang="de">„Wir hatten uns auf monatelange Suche eingestellt. Aunty K hat uns noch am selben Tag zurückgerufen und innerhalb von zwei Wochen jemanden gefunden, der wirklich zu unserer Familie passt."</p>
+          <div class="who">— [Family name, city]</div>
+        </div>
+        <div class="quote">
+          <p data-lang="en">"What stood out was how prepared our au pair already was. No awkward settling-in period — she just fit right into our routine from day one."</p>
+          <p data-lang="de">„Besonders aufgefallen ist uns, wie gut vorbereitet unser Au-pair bereits war. Keine unbeholfene Eingewöhnungsphase — sie hat sich vom ersten Tag an nahtlos in unseren Alltag eingefügt."</p>
+          <div class="who">— [Family name, city]</div>
+        </div>
+        <div class="quote">
+          <p data-lang="en">"Having one person to call, who actually knew both us and the au pair, made the whole thing feel human instead of transactional."</p>
+          <p data-lang="de">„Dass wir eine feste Ansprechpartnerin hatten, die sowohl uns als auch das Au-pair kannte, hat sich persönlich angefühlt statt bürokratisch."</p>
+          <div class="who">— [Family name, city]</div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- CONTACT -->
+  <div class="contact">
+    <div class="wrap contact-inner">
+      <div>
+        <span class="stamp-label" data-lang="en">Ready when you are</span>
+        <span class="stamp-label" data-lang="de">Bereit, wenn Sie es sind</span>
+        <h2 data-lang="en">Let's find your family's au pair.</h2>
+        <h2 data-lang="de">Lassen Sie uns das passende Au-pair für Ihre Familie finden.</h2>
+        <a class="big-call" href="tel:+4915216789697">
+          <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07 19.5 19.5 0 0 1-6-6 19.79 19.79 0 0 1-3.07-8.67A2 2 0 0 1 4.11 2h3a2 2 0 0 1 2 1.72c.127.96.361 1.903.7 2.81a2 2 0 0 1-.45 2.11L8.09 9.91a16 16 0 0 0 6 6l1.27-1.27a2 2 0 0 1 2.11-.45c.907.339 1.85.573 2.81.7A2 2 0 0 1 22 16.92z"/></svg>
+          +49 1521 6789697
+        </a>
+      </div>
+      <div class="contact-details">
+        <div>
+          <span class="k" data-lang="en">Phone / WhatsApp</span><span class="k" data-lang="de">Telefon / WhatsApp</span>
+          <a href="tel:+4915216789697">+49 1521 6789697</a> · <a href="https://wa.me/4915216789697" target="_blank" rel="noopener">WhatsApp</a>
+        </div>
+        <div>
+          <span class="k" data-lang="en">Phone / WhatsApp</span><span class="k" data-lang="de">Telefon / WhatsApp</span>
+          <a href="tel:+4915771697494">+49 1577 1697494</a> · <a href="https://wa.me/4915771697494" target="_blank" rel="noopener">WhatsApp</a>
+        </div>
+        <div>
+          <span class="k" data-lang="en">Email</span><span class="k" data-lang="de">E-Mail</span>
+          <a href="mailto:landsbergkhativajane@gmail.com">landsbergkhativajane@gmail.com</a>
+        </div>
+        <div>
+          <span class="k" data-lang="en">Service area</span><span class="k" data-lang="de">Einsatzgebiet</span>
+          <span data-lang="en">Europe</span><span data-lang="de">Europa</span>
+        </div>
+        <div>
+          <span class="k" data-lang="en">Hours</span><span class="k" data-lang="de">Erreichbarkeit</span>
+          <span data-lang="en">Mon–Fri, 9:00–17:00 (CET)</span><span data-lang="de">Mo–Fr, 9:00–17:00 Uhr</span>
+        </div>
+      </div>
+    </div>
+  </div>
+
+</main>
+
+<footer>
+  <div class="wrap">
+    <span data-lang="en">© 2026 Janes-Landmark. Personal au pair placement across Europe.</span>
+    <span data-lang="de">© 2026 Janes-Landmark. Persönliche Au-pair-Vermittlung in ganz Europa.</span>
+  </div>
+</footer>
+
+<script>
+  const btns = document.querySelectorAll('[data-set-lang]');
+  btns.forEach(btn => {
+    btn.addEventListener('click', () => {
+      const lang = btn.getAttribute('data-set-lang');
+      document.body.classList.toggle('lang-de', lang === 'de');
+      btns.forEach(b => b.classList.toggle('active', b === btn));
+      document.documentElement.lang = lang;
+    });
+  });
+</script>
+
+</body>
+</html>
