@@ -291,6 +291,37 @@
   }
   .aupair-card p{font-size:.92rem; margin:0; font-style:italic;}
 
+  /* charity */
+  .charity-grid{display:grid; grid-template-columns:repeat(3,1fr); gap:24px;}
+  .charity-card{
+    background:var(--white); border:1px solid var(--line); border-radius:14px;
+    overflow:hidden; display:flex; flex-direction:column;
+  }
+  .charity-photo{
+    width:100%; aspect-ratio:4/3; background:var(--paper-2);
+    position:relative; overflow:hidden;
+  }
+  .charity-photo .fallback-initial{
+    position:absolute; inset:0; display:flex; align-items:center; justify-content:center;
+    font-family:'Fraunces',serif; font-size:2.6rem; color:var(--green-deep);
+  }
+  .charity-photo img{display:none; width:100%; height:100%; object-fit:cover;}
+  .charity-body{padding:22px; display:flex; flex-direction:column; flex:1;}
+  .charity-body h3{font-size:1.05rem; margin-bottom:4px;}
+  .charity-tag{
+    font-family:'Space Mono',monospace; font-size:.68rem; text-transform:uppercase;
+    letter-spacing:.08em; color:var(--brass); display:block; margin-bottom:12px;
+  }
+  .charity-body p{font-size:.9rem; color:var(--ink-soft); margin:0 0 16px; flex:1;}
+  .charity-cta{
+    font-family:'Space Mono',monospace; font-size:.75rem; text-decoration:none;
+    border-top:1px solid var(--line); padding-top:12px; color:var(--green-deep);
+  }
+  .charity-note{
+    margin-top:30px; font-size:.9rem; color:var(--ink-soft);
+    border-left:2px solid var(--brass-soft); padding-left:14px;
+  }
+
   /* contact / footer */
   .contact{
     background:var(--paper-2); border-top:1px solid var(--line);
@@ -325,6 +356,7 @@
     .value-item:first-child{border-top:none;}
     .steps{grid-template-columns:1fr 1fr;}
     .quotes{grid-template-columns:1fr;}
+    .charity-grid{grid-template-columns:1fr;}
     .hero-visual{height:260px; margin-top:20px;}
     .about{padding:32px;}
     .avatar-ring{width:130px; height:130px; font-size:2rem;}
@@ -615,6 +647,44 @@
     </div>
   </section>
 
+  <!-- CHARITY -->
+  <section id="charity">
+    <div class="wrap">
+      <div class="section-head">
+        <span class="stamp-label" data-lang="en">Beyond placements</span>
+        <span class="stamp-label" data-lang="de">Über die Vermittlung hinaus</span>
+        <h2 data-lang="en">People Aunty K is helping</h2>
+        <h2 data-lang="de">Menschen, denen Aunty K hilft</h2>
+        <p data-lang="en">Alongside placing au pairs, Aunty K personally supports a small number of individuals who need extra help. Here are some of their stories.</p>
+        <p data-lang="de">Neben der Au-pair-Vermittlung unterstützt Aunty K persönlich einige wenige Menschen, die zusätzliche Hilfe benötigen. Hier sind einige ihrer Geschichten.</p>
+      </div>
+      <div class="charity-grid">
+        <div class="charity-card">
+          <div class="charity-photo">
+            <span class="fallback-initial">M</span>
+            <img src="media/charity-mark.jpg" alt="Mark"
+                 onload="this.previousElementSibling.style.display='none'; this.style.display='block';"
+                 onerror="this.style.display='none';">
+          </div>
+          <div class="charity-body">
+            <h3 data-lang="en">Mark</h3>
+            <h3 data-lang="de">Mark</h3>
+            <span class="charity-tag" data-lang="en">Bilateral upper extremity amputee</span>
+            <span class="charity-tag" data-lang="de">Beidseitig armamputiert</span>
+            <p data-lang="en">Mark is a bilateral upper extremity amputee, injured in an accident in 2003. [Add more of Mark's story here — what happened, how he's doing today, and what support would help him most.] Aunty K is personally seeking donations to support Mark.</p>
+            <p data-lang="de">Mark ist beidseitig armamputiert und wurde 2003 bei einem Unfall verletzt. [Hier mehr von Marks Geschichte ergänzen — was geschehen ist, wie es ihm heute geht und welche Unterstützung ihm am meisten helfen würde.] Aunty K sucht persönlich nach Spenden, um Mark zu unterstützen.</p>
+            <a class="charity-cta" href="#top">
+              <span data-lang="en">Want to help Mark? Contact Aunty K or chat to Clara →</span>
+              <span data-lang="de">Möchten Sie Mark helfen? Kontaktieren Sie Aunty K oder chatten Sie mit Clara →</span>
+            </a>
+          </div>
+        </div>
+      </div>
+      <p class="charity-note" data-lang="en">More stories are added as Aunty K takes on new cases. If you'd like to help in any way, get in touch — she'll tell you exactly where it's needed most.</p>
+      <p class="charity-note" data-lang="de">Weitere Geschichten werden ergänzt, sobald Aunty K neue Fälle übernimmt. Wenn Sie auf irgendeine Weise helfen möchten, melden Sie sich — sie sagt Ihnen genau, wo die Hilfe am dringendsten gebraucht wird.</p>
+    </div>
+  </section>
+
   <!-- CONTACT -->
   <div class="contact">
     <div class="wrap contact-inner">
@@ -630,23 +700,25 @@
       </div>
       <div class="contact-details">
         <div>
-          <span class="k" data-lang="en">Phone / WhatsApp</span><span class="k" data-lang="de">Telefon / WhatsApp</span>
-          <a href="tel:+4915216789697">+49 1521 6789697</a> · <a href="https://wa.me/4915216789697" target="_blank" rel="noopener">WhatsApp</a>
+          <span class="k" data-lang="en">Chat to Clara</span><span class="k" data-lang="de">Chatten Sie mit Clara</span>
+          <span data-lang="en">Clara is Aunty K's assistant. She can answer any question you have, any time of day.</span>
+          <span data-lang="de">Clara ist die Assistentin von Aunty K. Sie beantwortet jederzeit alle Ihre Fragen.</span>
         </div>
         <div>
-          <span class="k" data-lang="en">Phone / WhatsApp</span><span class="k" data-lang="de">Telefon / WhatsApp</span>
-          <a href="tel:+4915771697494">+49 1577 1697494</a> · <a href="https://wa.me/4915771697494" target="_blank" rel="noopener">WhatsApp</a>
+          <span data-lang="en">Clara can also email Aunty K directly on your behalf if you'd like a personal follow-up.</span>
+          <span data-lang="de">Clara kann in Ihrem Namen auch direkt eine E-Mail an Aunty K senden, wenn Sie eine persönliche Rückmeldung wünschen.</span>
         </div>
         <div>
-          <span class="k" data-lang="en">Email</span><span class="k" data-lang="de">E-Mail</span>
-          <a href="mailto:landsbergkhativajane@gmail.com">landsbergkhativajane@gmail.com</a>
+          <span class="k" data-lang="en">Get started</span><span class="k" data-lang="de">Loslegen</span>
+          <span data-lang="en">Look for the chat icon in the corner of your screen.</span>
+          <span data-lang="de">Nutzen Sie das Chat-Symbol in der Bildschirmecke.</span>
         </div>
         <div>
           <span class="k" data-lang="en">Service area</span><span class="k" data-lang="de">Einsatzgebiet</span>
           <span data-lang="en">Europe</span><span data-lang="de">Europa</span>
         </div>
         <div>
-          <span class="k" data-lang="en">Hours</span><span class="k" data-lang="de">Erreichbarkeit</span>
+          <span class="k" data-lang="en">Office hours</span><span class="k" data-lang="de">Bürozeiten</span>
           <span data-lang="en">Mon–Fri, 9:00–17:00 (CET)</span><span data-lang="de">Mo–Fr, 9:00–17:00 Uhr</span>
         </div>
       </div>
